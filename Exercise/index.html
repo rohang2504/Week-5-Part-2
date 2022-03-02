@@ -2,13 +2,131 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Horizontal Stacked Bar Chart</title>
-    <script src="../libs/d3/d3.min.js"></script>
+    <title>Activity 4 - Part 2: Line Generator</title>
+    <script src="../libs/d3/d3.js"></script>
+    <style>
+        svg {
+            width: 800px;
+            height: 600px;
+            background-color: rgb(250, 250, 229);
+            margin: auto;
+            display: block;
+
+        }
+    </style>
 
 </head>
 <body>
+    <h3 style="text-align: center; font-family: sans-serif;">Activity 4 - Part 2: Line Generator</h3>
 <div style="width: 80%"></div>
 <script>
+
+    // LOADING CSV
+    const sample_data = d3.csv("data_sample.csv").then(data=>{
+        
+
+        // MODIFYING CURRENT CSV AND LOADING IT TO NEW VARIABLE
+        let new_data = data.map(d=>{
+            return {date: new Date(d["date"]),
+                    EstimatedCost: d["EstimatedCost"]*1,
+                    RawMaterial: d["RawMaterial"]*1,
+                    Workmanship: d["Workmanship"]*1,
+                    YearlyStorage: d["YearlyStorage"]*1,
+                    ActualCost: d["RawMaterial"]*1 + d["Workmanship"]*1 + d["YearlyStorage"]*1,
+                    SoldPrice: d["EstimatedCost"]*1.1,
+                    Margin_Of_Profit: (d["EstimatedCost"]*1.1) - (d["RawMaterial"]*1 + d["Workmanship"]*1 + d["YearlyStorage"]*1)
+                    }
+        })
+        console.log(new_data)
+
+
+        // ADDING SVG ELEMENT TO BODY
+        let svg = d3.select("body").append("svg")
+
+
+        // MIN MAX FOR SCALE
+        let minmax_date = d3.extent(new_data, d=>d["date"])
+        let minmax_width = [50,750]
+        let minmax_height = [550,50]
+        let minmax_cost = [-800,3000]
+
+
+        // GENERATING SCALES
+        let x_scale = d3.scaleTime()
+                        .domain(minmax_date)
+                        .range(minmax_width)
+        let y_scale = d3.scaleLinear()
+                        .domain(minmax_cost)
+                        .range(minmax_height)
+
+
+        // GENERATING LINES
+        let line1=d3.line()
+                    .x(function(d){
+                        return x_scale(d.date);
+                    })                
+                    .y(function(d){
+                        return y_scale(d.EstimatedCost);
+                    })
+
+        let line2=d3.line()
+                    .x(function(d){
+                        return x_scale(d.date);
+                    })                
+                    .y(function(d){
+                        return y_scale(d.ActualCost);
+                    })
+
+        let line3=d3.line()
+                    .x(function(d){
+                        return x_scale(d.date);
+                    })                
+                    .y(function(d){
+                        return y_scale(d.Margin_Of_Profit);
+                    })
+
+        
+        // CREATING AXES FOR PLOT
+        const x_axis = d3.axisBottom().scale(x_scale);
+        const y_axis = d3.axisLeft().scale(y_scale);
+        
+
+        // ADDING AXIS TO THE PLOT  WITH MODIFICATIONS
+        svg.append("g").attr("transform","translate(0,550)").call(x_axis)
+        svg.append("g").attr("transform","translate(40,0)").call(y_axis)
+        
+        
+        // ADDING LINES TO PLOT
+        svg.append("path")
+            .data([new_data])
+            .attr("class","line")
+            .attr("d",line1)
+            .style("fill","none")
+            .style("stroke","red")
+            .style("stroke-width","2px")
+            .style("stroke-dasharray='5,5'")
+        
+        svg.append("path")
+            .data([new_data])
+            .attr("class","line")
+            .attr("d",line2)
+            .style("fill","none")
+            .style("stroke","blue")
+            .style("stroke-width","2px")
+        
+        svg.append("path")
+            .data([new_data])
+            .attr("class","line")
+            .attr("d",line3)
+            .style("fill","none")
+            .style("stroke","green")
+            .style("stroke-width","2px")
+        
+        
+
+    })
+
+
 
 </script>
 </body>
