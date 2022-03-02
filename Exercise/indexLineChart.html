@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Activity 4 - Part 2: Line Generator</title>
+    <title>Activity 4 - Part 2</title>
     <script src="../libs/d3/d3.js"></script>
     <style>
         svg {
@@ -11,13 +11,16 @@
             background-color: rgb(250, 250, 229);
             margin: auto;
             display: block;
+            border: black;
 
         }
     </style>
 
 </head>
-<body>
-    <h3 style="text-align: center; font-family: sans-serif;">Activity 4 - Part 2: Line Generator</h3>
+<body>    
+    <h3 style="text-align: center; font-family: sans-serif;">Activity 04 - Part 2: Line Generator</h3>
+
+
 <div style="width: 80%"></div>
 <script>
 
@@ -92,8 +95,8 @@
         
 
         // ADDING AXIS TO THE PLOT  WITH MODIFICATIONS
-        svg.append("g").attr("transform","translate(0,550)").call(x_axis)
-        svg.append("g").attr("transform","translate(40,0)").call(y_axis)
+        svg.append("g").attr("transform","translate(0,550)").call(x_axis).style("font-size","14")
+        svg.append("g").attr("transform","translate(40,0)").call(y_axis).style("font-size","11")
         
         
         // ADDING LINES TO PLOT
@@ -104,7 +107,6 @@
             .style("fill","none")
             .style("stroke","red")
             .style("stroke-width","2px")
-            .style("stroke-dasharray='5,5'")
         
         svg.append("path")
             .data([new_data])
@@ -122,6 +124,14 @@
             .style("stroke","green")
             .style("stroke-width","2px")
         
+        // LEGEND
+
+        svg.append("circle").attr("cx",650).attr("cy",30).attr("r", 6).style("fill", "red")
+        svg.append("circle").attr("cx",650).attr("cy",60).attr("r", 6).style("fill", "blue")
+        svg.append("circle").attr("cx",650).attr("cy",90).attr("r", 6).style("fill", "green")
+        svg.append("text").attr("x", 660).attr("y", 30).text("Estimated Cost").style("font-size", "15px").attr("alignment-baseline","middle").style("font-family","sans-serif")
+        svg.append("text").attr("x", 660).attr("y", 60).text("Actual Cost").style("font-size", "15px").attr("alignment-baseline","middle").style("font-family","sans-serif")
+        svg.append("text").attr("x", 660).attr("y", 90).text("Magin of Profit").style("font-size", "15px").attr("alignment-baseline","middle").style("font-family","sans-serif")
         
 
     })
