@@ -1,4 +1,6 @@
 td, th {
     padding: 1px 15px;
     align-self: auto;
+    border-color: black;
+    border: 5mm;
   }
