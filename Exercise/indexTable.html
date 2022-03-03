@@ -6,6 +6,7 @@
     <script src="../libs/d3/d3.js"></script>
     <link rel='stylesheet' href='style.css'>
     <style>
+        body {font-family: sans-serif;}
         svg {
             width: 800px;
             height: 600px;
@@ -35,8 +36,8 @@
                     Workmanship: d["Workmanship"]*1,
                     YearlyStorage: d["YearlyStorage"]*1,
                     ActualCost: d["RawMaterial"]*1 + d["Workmanship"]*1 + d["YearlyStorage"]*1,
-                    SoldPrice: d["EstimatedCost"]*1.1,
-                    Margin_Of_Profit: (d["EstimatedCost"]*1.1) - (d["RawMaterial"]*1 + d["Workmanship"]*1 + d["YearlyStorage"]*1)
+                    SoldPrice: (d["EstimatedCost"]*1.1).toFixed(2),
+                    Margin_Of_Profit: ((d["EstimatedCost"]*1.1) - (d["RawMaterial"]*1 + d["Workmanship"]*1 + d["YearlyStorage"]*1)).toFixed(2)
                     }
         })
         console.log(new_data)

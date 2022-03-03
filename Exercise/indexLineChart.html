@@ -36,8 +36,8 @@
                     Workmanship: d["Workmanship"]*1,
                     YearlyStorage: d["YearlyStorage"]*1,
                     ActualCost: d["RawMaterial"]*1 + d["Workmanship"]*1 + d["YearlyStorage"]*1,
-                    SoldPrice: d["EstimatedCost"]*1.1,
-                    Margin_Of_Profit: (d["EstimatedCost"]*1.1) - (d["RawMaterial"]*1 + d["Workmanship"]*1 + d["YearlyStorage"]*1)
+                    SoldPrice: (d["EstimatedCost"]*1.1).toFixed(2),
+                    Margin_Of_Profit: ((d["EstimatedCost"]*1.1) - (d["RawMaterial"]*1 + d["Workmanship"]*1 + d["YearlyStorage"]*1)).toFixed(2)
                     }
         })
         console.log(new_data)
@@ -87,6 +87,12 @@
                     .y(function(d){
                         return y_scale(d.Margin_Of_Profit);
                     })
+        
+        let line4=d3.line()
+                    .x(function(d){
+                        return x_scale(d.date);
+                    })                
+                    .y(0)
 
         
         // CREATING AXES FOR PLOT
@@ -122,6 +128,14 @@
             .attr("d",line3)
             .style("fill","none")
             .style("stroke","green")
+            .style("stroke-width","2px")
+
+        svg.append("path")
+            .data(any)
+            .attr("class","line")
+            .attr("d",line4)
+            .style("fill","none")
+            .style("stroke","black")
             .style("stroke-width","2px")
         
         // LEGEND
